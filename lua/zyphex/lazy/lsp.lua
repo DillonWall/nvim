@@ -28,7 +28,6 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "gopls",
-                "tsserver",
                 -- "gopls@v0.14.2",
             },
             handlers = {
