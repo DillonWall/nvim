@@ -12,6 +12,15 @@ function R(name)
     require("plenary.reload").reload_module(name)
 end
 
+autocmd('FileType', {
+    group = ZyphexGroup,
+    pattern = 'netrw',
+    callback = function ()
+        -- remap C-l to harpoon since netrw overrides it
+        vim.keymap.set("n", "<C-l>", function() require('harpoon'):list():select(4) end, { remap = true, buffer = true })
+    end
+})
+
 autocmd('TextYankPost', {
     group = yank_group,
     pattern = '*',
@@ -49,4 +58,3 @@ autocmd('LspAttach', {
 vim.g.netrw_browse_split = 0
 --vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
---vim.cmd('language en_US')
