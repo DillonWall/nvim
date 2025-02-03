@@ -20,6 +20,14 @@ return {
                 },
                 hijack_netrw_behavior = "open_current"
             },
+            event_handlers = { {
+                event = "neo_tree_buffer_enter",
+                handler = function(_)
+                    vim.cmd [[
+              setlocal relativenumber
+            ]]
+                end,
+            } },
         })
     end,
     vim.keymap.set('n', '<leader>pv', ':Neotree filesystem reveal current toggle<CR>', {})
