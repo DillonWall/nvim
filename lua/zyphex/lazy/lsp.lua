@@ -32,7 +32,6 @@ return {
                 "cssls",
                 "tailwindcss",
                 "emmet_language_server",
-                "phpactor",
                 "volar",
                 "intelephense",
                 -- "gopls@v0.14.2",
