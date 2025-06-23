@@ -8,7 +8,28 @@ return {
     },
 
     config = function()
-        require('telescope').setup({})
+        require('telescope').setup({
+            defaults = {
+                file_ignore_patterns = {
+                    "%.bak$",
+                    "%.svg$",
+                    "^node_modules",
+                    "^%.tmp$",
+                    "^seeds$",
+                    "^bootstrap$",
+                    "^public$",
+                    "^resources$",
+                    "^routes$",
+                    "^storage/app$",
+                    "^storage/framework$",
+                    "^storage/twig_cache$",
+                    "^vendor",
+                    "^%.git$",
+                    "%.eslint",
+                    "%.stylelint$",
+                },
+            },
+        })
 
         local builtin = require('telescope.builtin')
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
