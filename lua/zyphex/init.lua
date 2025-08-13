@@ -15,7 +15,7 @@ end
 autocmd('FileType', {
     group = ZyphexGroup,
     pattern = 'netrw',
-    callback = function ()
+    callback = function()
         -- remap C-l to harpoon since netrw overrides it
         vim.keymap.set("n", "<C-l>", function() require('harpoon'):list():select(4) end, { remap = true, buffer = true })
     end
@@ -32,7 +32,7 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
+autocmd({ "BufWritePre" }, {
     group = ZyphexGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
@@ -58,3 +58,17 @@ autocmd('LspAttach', {
 vim.g.netrw_browse_split = 0
 --vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+
+vim.opt.clipboard = "unnamedplus"
+vim.g.clipboard = {
+    name = 'WslClipboard',
+    copy = {
+        ['+'] = 'clip.exe',
+        ['*'] = 'clip.exe',
+    },
+    paste = {
+        ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    },
+    cache_enabled = 0,
+}
