@@ -42,7 +42,6 @@ return {
                     "tailwindcss",
                     "emmet_language_server",
                     "eslint",
-                    "prettierd",
                     "ts_ls",
                     -- "gopls@v0.14.2",
                 },
