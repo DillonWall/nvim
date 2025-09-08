@@ -12,10 +12,23 @@ return {
         require('telescope').setup({
             defaults = {
                 file_ignore_patterns = {
+                    -- File types
                     "%.bak$",
                     "%.svg$",
+                    "%.git$",
+                    "%.eslint",
+                    "%.stylelint$",
+                    "%.png$",
+                    "%.tmp$",
+                    "%.sample%-package",
+                    "^LICENSE$",
+
+                    -- Folders
                     "node_modules",
-                    "^%.tmp$",
+                    "^assets/",
+                    "^_scripts/",
+
+                    -- Laravel-specific
                     "^seeds$",
                     "^bootstrap$",
                     "^public$",
@@ -24,10 +37,7 @@ return {
                     "^storage/app$",
                     "^storage/framework$",
                     "^storage/twig_cache$",
-                    "^vendor",
-                    "^%.git$",
-                    "%.eslint",
-                    "%.stylelint$",
+                    "^vendor/",
                 },
             },
             extensions = {
