@@ -10,8 +10,13 @@ return {
 
     config = function()
         require('telescope').setup({
+            pickers = {
+                find_files = {
+                    hidden = true,
+                    no_ignore = true,
+                },
+            },
             defaults = {
-                hidden = true,
                 file_ignore_patterns = {
                     -- File types
                     "%.bak$",
