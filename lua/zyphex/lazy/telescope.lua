@@ -11,6 +11,7 @@ return {
     config = function()
         require('telescope').setup({
             defaults = {
+                hidden = true,
                 file_ignore_patterns = {
                     -- File types
                     "%.bak$",
