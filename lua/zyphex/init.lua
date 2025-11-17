@@ -71,4 +71,6 @@ if vim.fn.has('wsl') == 1 then
       ['*'] = 'win32yank.exe -o --lf',
     },
   }
+else
+  vim.opt.clipboard = 'unnamedplus'
 end
