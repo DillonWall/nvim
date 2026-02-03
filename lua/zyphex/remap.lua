@@ -22,7 +22,8 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>f", '<cmd>lua require("conform").format()<CR>')
 
 vim.keymap.set("n", "<C-m>", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<C-,>", "<cmd>lprev<CR>zz")
