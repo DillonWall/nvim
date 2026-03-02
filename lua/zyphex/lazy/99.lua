@@ -1,6 +1,6 @@
 return {
     "ThePrimeagen/99",
-    dir = "~/projects/99",
+    -- dir = "~/projects/99",
     config = function()
         local _99 = require("99")
 

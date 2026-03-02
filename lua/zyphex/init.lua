@@ -55,6 +55,18 @@ autocmd('LspAttach', {
     end
 })
 
+-- force diff highlighting to be visible in all themes by setting specific colors
+local hi = vim.api.nvim_set_hl
+-- Set foreground (fg) and background (bg) for diffs
+-- Green for additions
+hi(0, 'DiffAdd',    { fg = '#88ff88', bg = '#223322' })
+-- Red for deletions
+hi(0, 'DiffDelete', { fg = '#ff8888', bg = '#332222' })
+-- Yellow/Purple for changed lines
+hi(0, 'DiffChange', { fg = '#ffff88', bg = '#333322' })
+-- Text actually changed within a line
+hi(0, 'DiffText',   { fg = '#ffffff', bg = '#444400', bold = true })
+
 vim.g.netrw_browse_split = 0
 --vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
