@@ -44,6 +44,7 @@ return {
                     "eslint",
                     "ts_ls",
                     -- "gopls@v0.14.2",
+                    "basedpyright",
                 },
                 handlers = {
                     function(server_name) -- default handler (optional)
@@ -160,6 +161,24 @@ return {
                     source = "always",
                     header = "",
                     prefix = "",
+                },
+            })
+
+            -- setup basedpyright
+            local lspconfig = require("lspconfig")
+            lspconfig.basedpyright.setup({
+                settings = {
+                    python = {
+                        venvPath = os.getenv("HOME") .. "/miniconda3/envs",
+                    },
+                    basedpyright = {
+                        analysis = {
+                            pythonVersion = "3.12",
+                            typeCheckingMode = "off",
+                            reportUnusedParameter = "none",
+                            reportUnusedFunction = "none",
+                        },
+                    },
                 },
             })
         end,
