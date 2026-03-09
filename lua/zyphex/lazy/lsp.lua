@@ -165,8 +165,7 @@ return {
             })
 
             -- setup basedpyright
-            local lspconfig = require("lspconfig")
-            lspconfig.basedpyright.setup({
+            vim.lsp.config('basedpyright', {
                 settings = {
                     python = {
                         venvPath = os.getenv("HOME") .. "/miniconda3/envs",
