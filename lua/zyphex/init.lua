@@ -1,3 +1,14 @@
+-- Use OSC 52 for the system clipboard over SSH (travels through the terminal, no X11
+-- forwarding needed). Fixes "+ register yanks reaching the local machine's clipboard.
+if vim.env.SSH_CONNECTION then
+    local osc52 = require('vim.ui.clipboard.osc52')
+    vim.g.clipboard = {
+        name = 'OSC 52',
+        copy  = { ['+'] = osc52.copy('+'),  ['*'] = osc52.copy('*') },
+        paste = { ['+'] = osc52.paste('+'), ['*'] = osc52.paste('*') },
+    }
+end
+
 require("zyphex.set")
 require("zyphex.remap")
 require("zyphex.lazy_init")
