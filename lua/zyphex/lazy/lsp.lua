@@ -45,6 +45,7 @@ return {
                     "ts_ls",
                     -- "gopls@v0.14.2",
                     "basedpyright",
+                    "zls",
                 },
                 handlers = {
                     function(server_name) -- default handler (optional)
