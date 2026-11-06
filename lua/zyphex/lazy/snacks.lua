@@ -40,10 +40,13 @@ return {
 
         -- snacks hides an image buffer's image when it leaves the window but never
         -- un-hides it, so a reopened image stays blank. Wipe image buffers when
-        -- hidden instead; reopening then re-reads and redraws them.
+        -- hidden instead; reopening then re-reads and redraws them. snacks leaves
+        -- the buffer 'modified' from drawing it, which blocks the wipe (E37), so
+        -- make it nofile: nvim never treats those as unsaved.
         vim.api.nvim_create_autocmd("FileType", {
             pattern = "image",
             callback = function(ev)
+                vim.bo[ev.buf].buftype = "nofile"
                 vim.bo[ev.buf].bufhidden = "wipe"
             end,
         })
