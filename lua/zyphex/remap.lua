@@ -32,8 +32,26 @@ vim.keymap.set("n", "<leader>k", "<cmd>cprev<CR>zz")
 
 vim.keymap.set("n", "<leader>S", [[:%S/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>s", [[:%S/<C-r><C-w>//gc<Left><Left><Left>]])
-vim.keymap.set("x", "<leader>S", [[y:%S/<C-r>"/<C-r>"/gc<Left><Left><Left>]])
-vim.keymap.set("x", "<leader>s", [[y:%S/<C-r>"//gc<Left><Left><Left>]])
+-- Visual: substitute the selection file-wide. Plain words go through Abolish's
+-- :S (case variants); anything else (/, regex chars, spaces, multi-line) falls
+-- back to a literal \V :s, since :S can't escape its separator or \v specials.
+local function visual_sub(prefill)
+    return function()
+        local text = table.concat(vim.fn.getregion(vim.fn.getpos("v"), vim.fn.getpos("."), { type = vim.fn.mode() }), "\n")
+        local cmd
+        if text:match("^[%w_%-]+$") then
+            cmd = "%S/" .. text .. "/" .. (prefill and text or "") .. "/gc"
+        else
+            local pat = vim.fn.escape(text, [[\/]]):gsub("\n", [[\n]]):gsub("\t", [[\t]])
+            local rep = prefill and vim.fn.escape(text, [[\/&~]]):gsub("\n", [[\r]]):gsub("\t", [[\t]]) or ""
+            cmd = [[%s/\V\C]] .. pat .. "/" .. rep .. "/gc"
+        end
+        -- selection text is typed raw (replace_keycodes = false), so "<Left>" in it stays literal
+        return vim.keycode("<Esc>:") .. cmd .. vim.keycode("<Left><Left><Left>")
+    end
+end
+vim.keymap.set("x", "<leader>S", visual_sub(true), { expr = true, replace_keycodes = false })
+vim.keymap.set("x", "<leader>s", visual_sub(false), { expr = true, replace_keycodes = false })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set(
