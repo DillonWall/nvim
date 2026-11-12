@@ -56,20 +56,28 @@ vim.keymap.set("x", "<leader>s", visual_sub(false), { expr = true, replace_keyco
 -- one-eyed fighting kirby: capture each selected line, cursor in the replacement (\1 = the line)
 vim.keymap.set("x", "<leader>k", [[:s/\(.*\)//<Left>]])
 
--- yank the Nth whitespace-separated word (count, default 1) of each selected line, one per line
-vim.keymap.set("x", "<leader>w", function()
-    local n = math.max(vim.v.count, 1)
-    local s, e = vim.fn.line("v"), vim.fn.line(".")
-    if s > e then s, e = e, s end
-    local words = {}
-    for _, line in ipairs(vim.api.nvim_buf_get_lines(0, s - 1, e, false)) do
-        local w = vim.split(vim.trim(line), "%s+")[n]
-        if w and w ~= "" then table.insert(words, w) end
+-- yank the Nth word (count, default 1) of each selected line, one per line
+-- <leader>w: whitespace-separated (foo.bar(x) is one word); <leader>iw: keyword runs, symbols skipped
+local function yank_nth_word(pat)
+    return function()
+        local n = math.max(vim.v.count, 1)
+        local s, e = vim.fn.line("v"), vim.fn.line(".")
+        if s > e then s, e = e, s end
+        local words = {}
+        for _, line in ipairs(vim.api.nvim_buf_get_lines(0, s - 1, e, false)) do
+            local w = vim.fn.matchstr(line, pat, 0, n)
+            if w ~= "" then table.insert(words, w) end
+        end
+        vim.fn.setreg('"', words, "l")
+        vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
+        vim.notify(("yanked word %d from %d lines"):format(n, #words))
     end
-    vim.fn.setreg('"', words, "l")
-    vim.api.nvim_feedkeys(vim.keycode("<Esc>"), "n", false)
-    vim.notify(("yanked word %d from %d lines"):format(n, #words))
-end)
+end
+vim.keymap.set("x", "<leader>w", yank_nth_word([[\S\@<!\S\+]]))
+vim.keymap.set("x", "<leader>iw", yank_nth_word([[\<\k\+]]))
+
+-- reselect the last paste, in the mode it was pasted (char/line/block)
+vim.keymap.set("n", "gp", function() return "`[" .. vim.fn.getregtype():sub(1, 1) .. "`]" end, { expr = true })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set(
