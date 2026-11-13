@@ -56,8 +56,8 @@ vim.keymap.set("x", "<leader>s", visual_sub(false), { expr = true, replace_keyco
 -- one-eyed fighting kirby: capture each selected line, cursor in the replacement (\1 = the line)
 vim.keymap.set("x", "<leader>k", [[:s/\(.*\)//<Left>]])
 
--- yank the Nth word of each selected line, one per line; N = count (2<leader>iw) or digit (<leader>2iw)
--- <leader>w: whitespace-separated (foo.bar(x) is one word); <leader>iw: keyword runs, symbols skipped
+-- yank the Nth word of each selected line, one per line; N = count (2<leader>w) or digit (<leader>2w)
+-- <leader>w: keyword runs, symbols skipped (like Vim's w); <leader>W: whitespace-separated (like W)
 local function yank_nth_word(pat, fixed_n)
     return function()
         local n = fixed_n or math.max(vim.v.count, 1)
@@ -73,13 +73,12 @@ local function yank_nth_word(pat, fixed_n)
         vim.notify(("yanked word %d from %d lines"):format(n, #words))
     end
 end
-vim.keymap.set("x", "<leader>w", yank_nth_word([[\S\@<!\S\+]]))
-vim.keymap.set("x", "<leader>iw", yank_nth_word([[\<\k\+]]))
-vim.keymap.set("x", "<leader>iW", yank_nth_word([[\S\@<!\S\+]])) -- same as <leader>w, named like Vim's iW
+local word, WORD = [[\<\k\+]], [[\S\@<!\S\+]]
+vim.keymap.set("x", "<leader>w", yank_nth_word(word))
+vim.keymap.set("x", "<leader>W", yank_nth_word(WORD))
 for i = 1, 9 do
-    vim.keymap.set("x", "<leader>" .. i .. "w", yank_nth_word([[\S\@<!\S\+]], i))
-    vim.keymap.set("x", "<leader>" .. i .. "iw", yank_nth_word([[\<\k\+]], i))
-    vim.keymap.set("x", "<leader>" .. i .. "iW", yank_nth_word([[\S\@<!\S\+]], i))
+    vim.keymap.set("x", "<leader>" .. i .. "w", yank_nth_word(word, i))
+    vim.keymap.set("x", "<leader>" .. i .. "W", yank_nth_word(WORD, i))
 end
 
 -- reselect the last paste, in the mode it was pasted (char/line/block)
