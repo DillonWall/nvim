@@ -75,9 +75,11 @@ local function yank_nth_word(pat, fixed_n)
 end
 vim.keymap.set("x", "<leader>w", yank_nth_word([[\S\@<!\S\+]]))
 vim.keymap.set("x", "<leader>iw", yank_nth_word([[\<\k\+]]))
+vim.keymap.set("x", "<leader>iW", yank_nth_word([[\S\@<!\S\+]])) -- same as <leader>w, named like Vim's iW
 for i = 1, 9 do
     vim.keymap.set("x", "<leader>" .. i .. "w", yank_nth_word([[\S\@<!\S\+]], i))
     vim.keymap.set("x", "<leader>" .. i .. "iw", yank_nth_word([[\<\k\+]], i))
+    vim.keymap.set("x", "<leader>" .. i .. "iW", yank_nth_word([[\S\@<!\S\+]], i))
 end
 
 -- reselect the last paste, in the mode it was pasted (char/line/block)
