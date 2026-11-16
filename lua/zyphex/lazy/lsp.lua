@@ -173,9 +173,6 @@ return {
             -- setup basedpyright
             vim.lsp.config('basedpyright', {
                 settings = {
-                    python = {
-                        venvPath = os.getenv("HOME") .. "/miniconda3/envs",
-                    },
                     basedpyright = {
                         analysis = {
                             pythonVersion = "3.12",
